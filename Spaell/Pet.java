@@ -1,17 +1,20 @@
 package Spaell;
 
 public class Pet {
-    private String[] races = {"cat", "dog", "turtle", "pangolin", "furry", "fish"};
+    private String[] races = {"cat", "dog", "turtle", "pangolin", "furry", "goldfish"};
     private int[] damages = {2, 5, 6, 9, -6, 0};
+    private int[] indexs = {0,1,2,3,4,5};
     private String race;
     private int damage;
+    private int index;
 
     Pet(int i){
         if(i==-1){
-            i = (int)(Math.random()*races.length);
+            i = (int)(Math.random()*races.length-1);
         }
-        race = races[Math.max(0,i-1)];
-        damage = damages[Math.max(0,i-1)];
+        race = races[i];
+        damage = damages[i];
+        index = indexs[i];
     }
 
     public void setRace(String race) {
@@ -28,5 +31,9 @@ public class Pet {
 
     public int getDamage() {
         return damage;
+    }
+
+    public int getIndex() {
+        return index;
     }
 }

@@ -176,7 +176,7 @@ public class UI {
         infoPanel.setBorder(BorderFactory.createCompoundBorder(new EtchedBorder(), new EmptyBorder(10, 10, 10, 10)));
         con.add(infoPanel);
 
-        fighTextArea = new JTextArea("");
+        fighTextArea = new JTextArea("mjau");
         fighTextArea.setBounds(0,150,300,225);
         fighTextArea.setBackground(Back);
         fighTextArea.setForeground(Fore);
@@ -204,7 +204,7 @@ public class UI {
         enemyHealthLabel.setForeground(Fore);
         enemyStatsPanel.add(enemyHealthLabel);
 
-        enemyHealthNumberLabel = new JLabel("" + 80);
+        enemyHealthNumberLabel = new JLabel("somethin aint right" + 80);
         enemyHealthNumberLabel.setFont(normalFont);
         enemyHealthNumberLabel.setForeground(Fore);
         enemyStatsPanel.add(enemyHealthNumberLabel);
@@ -214,7 +214,7 @@ public class UI {
         enemyDamageLabel.setForeground(Fore);
         enemyStatsPanel.add(enemyDamageLabel);
 
-        enemyDamageNumberLabel = new JLabel("" + 4);
+        enemyDamageNumberLabel = new JLabel("not right" + 4);
         enemyDamageNumberLabel.setFont(normalFont);
         enemyDamageNumberLabel.setForeground(Fore);
         enemyStatsPanel.add(enemyDamageNumberLabel);
@@ -231,7 +231,7 @@ public class UI {
         fightHealthLabel.setForeground(Fore);
         playerStatsPanel.add(fightHealthLabel);
 
-        fightHealthNumberLabel = new JLabel(""+ 100);
+        fightHealthNumberLabel = new JLabel("nope"+ 100);
         fightHealthNumberLabel.setFont(normalFont);
         fightHealthNumberLabel.setForeground(Fore);
         playerStatsPanel.add(fightHealthNumberLabel);
@@ -241,7 +241,7 @@ public class UI {
         damageLabel.setForeground(Fore);
         playerStatsPanel.add(damageLabel);
 
-        damageNumberLabel = new JLabel("" + 2);
+        damageNumberLabel = new JLabel("mjau" + 2);
         damageNumberLabel.setFont(normalFont);
         damageNumberLabel.setForeground(Fore);
         playerStatsPanel.add(damageNumberLabel);
@@ -251,7 +251,7 @@ public class UI {
         weaponLabel.setForeground(Fore);
         playerStatsPanel.add(weaponLabel);
 
-        weaponNameLabel = new JLabel("Branch");
+        weaponNameLabel = new JLabel("error");
         weaponNameLabel.setFont(normalFont);
         weaponNameLabel.setForeground(Fore);
         playerStatsPanel.add(weaponNameLabel);

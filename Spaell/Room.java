@@ -10,6 +10,7 @@ public class Room {
     Game game;
     UI ui; 
     VisibilityManager vm;
+    Connect con;
     static Player player;
     private Monster monster;
     static int roomcounter;
@@ -18,11 +19,12 @@ public class Room {
 
     int silverRing;
 
-    public Room(Game g, UI userInterface, VisibilityManager vManager){
+    public Room(Game g, UI userInterface, VisibilityManager vManager, Connect Conn){
         
         game = g;
         ui = userInterface;
         vm = vManager;
+        con = Conn;
     }
 
     public void selectPosition(String nextPosition){
@@ -41,30 +43,48 @@ public class Room {
             case "escape2": escapeResult(2); break;
             case "escape3": escapeResult(3); break;
 
-            case "save": try {
-                    Connect.insert();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } saveComplete();
-                break;
+            case "save": try {con.insert();} catch (Exception e) {e.printStackTrace();}
+                        saveComplete(); break;
         }
     }
 
 
     public void start(){
         player = new Player(ui.nameArea.getText());
-        weapon = new Weapon(8);
-        pet = new Pet(6);
-        player.setWeapon(weapon);
-        player.setPet(pet);
-        ui.mainTextArea.setText("You are standing at the entrance of a dungeon.\nYou have a branch in your hand and your loyal pet goldfish is with you\n\nProceed?");
+        try {
+            if(con.scan()){
+                con.get();
+            } else{
+                Weapon weapon = new Weapon(1);
+                Pet pet = new Pet(5);
+                player.setWeapon(weapon);
+                player.setPet(pet);
+            }
+        } catch (Exception e) {e.printStackTrace();}
+
+        if(player.getHealth() > 0){
+            startScreen();
+        } else{
+            deadScreen();
+        }
+    }
+
+    public void startScreen(){
+        ui.generalHealthNumberLabel.setText(String.valueOf(player.getHealth()));
+
+        ui.mainTextArea.setText("You are standing at the entrance of a dungeon.\nYou have a " + player.getWeapon().getType() + " in your hand \nYour loyal pet " + player.getPet().getRace() + " is with you\n\nProceed?");
+
         ui.choice1.setText("Enter");
         ui.choice2.setText("");
         ui.choice3.setText("");
 
-        System.out.println(player.getWeapon().getType());
-
         game.nextPosition1 = "newRoom";
+    }
+
+    public void deadScreen(){
+        ui.generalHealthNumberLabel.setText(String.valueOf(player.getHealth()));
+        ui.mainTextArea.setText("You are already dead \n\nYou cannot come back to life at this time");
+        ui.choiceButtonPanel.setVisible(false);
     }
 
     public void newRoom(){
@@ -125,10 +145,10 @@ public class Room {
         ui.generalHealthLabel.setText("Pet's Dmg: ");
         ui.generalHealthNumberLabel.setText(String.valueOf(pet.getDamage()));
 
-        ui.mainTextArea.setText("There is a pet wandering around this room\nIt's a "+ pet.getRace() + " and it will help you in battle, dealing an extra " + pet.getDamage() + " damage to enemies\n\nBring it with you?");
+        ui.mainTextArea.setText("There is a pet wandering around this room\nIt's a "+ pet.getRace() + ". In battle, it will deal an extra " + pet.getDamage() + " damage to enemies\n\nBring it with you?");
 
-        ui.choice1.setText("Bring Along");
-        ui.choice2.setText("Abandon");
+        ui.choice1.setText("Abandon partner");
+        ui.choice2.setText("Leave it");
         ui.choice3.setText("");
 
         game.nextPosition1 = "petPickup";
@@ -138,7 +158,7 @@ public class Room {
     }
 
     public void petPickup(){
-        ui.mainTextArea.setText("The " + pet.getRace() + " is now your loyal friend and will help you out :D\nYour old pet" + player.getPet().getRace() + " has been abandoned and will probably become very sad and depressed and eaten up grotuesqely\n\n Move on to the next room?");
+        ui.mainTextArea.setText("The " + pet.getRace() + " is now your loyal friend and will help you :D\n\nYour old " + player.getPet().getRace() + " has been abandoned and will be very depressed and eaten\n\n Move on");
         player.setPet(pet);
 
         ui.choice1.setText("Next Room");
@@ -196,7 +216,7 @@ public class Room {
         Math.max(0,enemyHealth);
         ui.attackButton.setBackground(ui.Disabled);
         ui.attackButton.setEnabled(false);
-            Timer timer = new Timer(2500, (ActionListener) new ActionListener() {
+            Timer timer = new Timer(1800, (ActionListener) new ActionListener() {
             
                 public void actionPerformed(ActionEvent e) {
 
@@ -233,7 +253,7 @@ public class Room {
         } else{
             ui.fighTextArea.setText(monster.getRace() + " attacks and deals " + enemyDamage + " damage\n\nWhat will you do?");
         }
-        Timer timer = new Timer(1500, (ActionListener) new ActionListener() {
+        Timer timer = new Timer(1000, (ActionListener) new ActionListener() {
             
             public void actionPerformed(ActionEvent e) {
 
@@ -248,7 +268,7 @@ public class Room {
 
     public void victory(){
         vm.generalLayout();
-        ui.mainTextArea.setText("Congratulations! You slaughtered the innocent " + monster.getRace() + " who had done nothing wrong :)!\nYou gained nothing from it. \n\nWhat will you do next?");
+        ui.mainTextArea.setText("Congratulations! You slaughtered the innocent " + monster.getRace() + " who did nothing wrong :)!\nYou gained nothing from it. \n\nWhat will you do next?");
 
         ui.choice1.setText("Proceed");
         ui.choice2.setText("Save");
@@ -262,6 +282,12 @@ public class Room {
 
     public void lose(){
         vm.generalLayout();
+
+        try {con.insert();}
+        catch (Exception e) {e.printStackTrace();}
+
+        ui.generalHealthNumberLabel.setText(String.valueOf(player.getHealth()));
+
         ui.mainTextArea.setText("You were brutally slaughtered\n\nYou died.");
         ui.choiceButtonPanel.setVisible(false);
     }

@@ -8,8 +8,9 @@ public class Game {
 
     UI ui = new UI();
     ChoiceHandler chandler = new ChoiceHandler();
+    Connect con = new Connect(ui);
     VisibilityManager vm = new VisibilityManager(ui);
-    Room room = new Room(this, ui, vm);
+    Room room = new Room(this, ui, vm, con);
 
 
     public String nextPosition1, nextPosition2, nextPosition3;
