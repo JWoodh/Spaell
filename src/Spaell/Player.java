@@ -1,7 +1,7 @@
 package Spaell;
 
 public class Player { 
-    private String name; //Setter variablen navn
+    private String name; 
     private int health = 100;
 
     private Weapon weapon;
@@ -11,6 +11,8 @@ public class Player {
         this.name = name;
     }
     
+
+    //Setters og getters
 
     public String getName() {
         return name;
