@@ -88,7 +88,7 @@ public class Room {
     //At et navn kun kan brukes i en playthrough er ikke uheldig, det er en feature
     public void deadScreen(){
         ui.generalHealthNumberLabel.setText(String.valueOf(player.getHealth()));
-        ui.generalTextAreaa.setText("You are already dead \n\nYou cannot come back to life at this time");
+        ui.generalTextAreaa.setText(player.getName() + " is already dead \n\nYou cannot come back to life at this time");
         ui.choiceButtonPanel.setVisible(false); //Fjerner muligheten til å trykke på noe som helst
     }
 
