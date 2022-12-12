@@ -105,7 +105,7 @@ public class Connect {
     public static Connection getConnection() throws Exception{
         try{
             String driver = "com.mysql.cj.jdbc.Driver"; //Driveren
-            String url = "jdbc:mysql://192.168.1.120:3306/java"; //lenken til databsen
+            String url = "jdbc:mysql://10.2.2.2:3306/java"; //lenken til databsen
             String username = "JWoodh";//Brukernavn for tilgang
             String password = "jwoodh";//Passord for tilgang
             Class.forName(driver);
