@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 public class Game {
 
     // Definerer klassene som brukes generelt og sender over til de som skal bruke
-    Spaell.UI ui = new UI(); 
+    UI ui = new UI(); 
     ChoiceHandler chandler = new ChoiceHandler(); 
     Connect con = new Connect(ui); 
     VisibilityManager vm = new VisibilityManager(ui); 

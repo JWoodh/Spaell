@@ -32,7 +32,7 @@ public class Connect {
                 int room = result.getInt("room");
                 
                 // Setter infoen på den nye spillern
-                Room.player.setHealth(hp);
+                Room.player.setHealth(hp); 
                 Room.player.setWeapon(new Weapon(weapon));
                 Room.player.setPet(new Pet(pet));
                 Room.roomcounter = room; 
@@ -71,6 +71,7 @@ public class Connect {
         int room = Room.roomcounter;
         int weaponIndex = Room.player.getWeapon().getIndex();
         int petIndex = Room.player.getPet().getIndex();
+        
         int check = 0; //Sjekker om det ble et treff i det hele tatt
         while(result.next()){ //Kjører gjennom resultatene og sjekker om det allerede er en bruker som heter det
             if(result.getString("username").equals(username)){
@@ -105,7 +106,8 @@ public class Connect {
     public static Connection getConnection() throws Exception{
         try{
             String driver = "com.mysql.cj.jdbc.Driver"; //Driveren
-            String url = "jdbc:mysql://10.2.2.2:3306/java"; //lenken til databsen
+            // String url = "jdbc:mysql://10.2.2.2:3306/java"; //lenken til databsen
+            String url = "jdbc:mysql://localhost/java"; //lenken til databsen
             String username = "JWoodh";//Brukernavn for tilgang
             String password = "jwoodh";//Passord for tilgang
             Class.forName(driver);

@@ -3,7 +3,7 @@ package Spaell;
 public class Monster {
     private String[] races = {"berater", "boggler", "swatter", "stomper","apostle" ,"basilisk"}; //Navnene til monsterne man møter
     private int[] damages = {3,6, 25, 22, 28, 25};// Skaden monstrene gjør
-    private int[] healths = {30,45,25,60,96,320};// Hvor mye liv monstrene har
+    private int[] healths = {30,45,25,60,96, 160};// Hvor mye liv monstrene har
     private String race;
     private int damage;
     private int health;
