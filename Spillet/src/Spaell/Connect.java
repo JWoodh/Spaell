@@ -45,7 +45,7 @@ public class Connect {
     public boolean scan() throws Exception{
         Connection con = getConnection(); // Får kobling til databasen
         createTable(); //Lager tabellen om den ikke allerede finnes
-        PreparedStatement statement = con.prepareStatement("SELECT * FROM users");//Henter ut alt
+        PreparedStatement statement = con.prepareStatement("SELECT username FROM users");//Henter ut alt
         ResultSet result = statement.executeQuery(); //Kjører statement
 
         //Kjører gjennom alle linjene i tabellen og sjekker om brukernavnet matcher det brukern skrev
@@ -57,6 +57,20 @@ public class Connect {
         return false;   
     }
 
+    public boolean scrutinise() throws Exception{
+        Connection con = getConnection(); // Får kobling til databasen
+        createTable(); //Lager tabellen om den ikke allerede finnes
+        PreparedStatement statement = con.prepareStatement("SELECT username,password FROM users WHERE username = '"+ui.nameArea.getText()+"'");//Henter ut alt
+        ResultSet result = statement.executeQuery(); //Kjører statement
+
+        while(result.next()){
+            if(result.getString("password").equals(ui.passwordArea.getText())){
+                return true;
+            }
+        }
+        return false;
+    }
+
     // Funksjon for å sette inn info i databasen
     public void insert() throws Exception{
         Connection con = getConnection(); //Får kobling til databasen 
@@ -65,6 +79,7 @@ public class Connect {
 
         // Definerer alle variablene jeg skal sette inn i databasen
         String username = Room.player.getName();
+        String password = Room.password;
         int health = Room.player.getHealth();
         String weapon = Room.player.getWeapon().getType();
         String pet = Room.player.getPet().getRace();
@@ -77,7 +92,7 @@ public class Connect {
             if(result.getString("username").equals(username)){
 
                 //Oppdaterer brukern med ny info
-                PreparedStatement change = con.prepareStatement("UPDATE users SET health = '" + health + "', weapon = '" + weapon + "', pet = '" + pet + "', room = '" + room + "', weaponIndex = '" + weaponIndex + "', petIndex = '" + petIndex + "' WHERE username = '" + username + "'");
+                PreparedStatement change = con.prepareStatement("UPDATE users SET password = '"+ password +"', health = '" + health + "', weapon = '" + weapon + "', pet = '" + pet + "', room = '" + room + "', weaponIndex = '" + weaponIndex + "', petIndex = '" + petIndex + "' WHERE username = '" + username + "'");
                 change.executeUpdate();
                 check = 1;
             } 
@@ -85,7 +100,7 @@ public class Connect {
         if(check == 0){
             try{
                 //Lagere brukern med info
-                PreparedStatement inserted = con.prepareStatement("INSERT INTO users (username, health, weapon, pet, room, weaponIndex, petIndex) VALUES ('"+username+"', '"+health+"','"+weapon+"', '"+pet+"', '"+room+"', '" + weaponIndex + "', '" + petIndex + "')");
+                PreparedStatement inserted = con.prepareStatement("INSERT INTO users (username, password, health, weapon, pet, room, weaponIndex, petIndex) VALUES ('"+username+"','"+password+"','"+health+"','"+weapon+"', '"+pet+"', '"+room+"', '" + weaponIndex + "', '" + petIndex + "')");
                 inserted.executeUpdate();
             } catch(Exception e){System.out.println(e);}
         }
@@ -96,7 +111,7 @@ public class Connect {
     public void createTable() throws Exception{
         try{
             Connection con = getConnection(); //Får kobling til databasen
-            PreparedStatement create = con.prepareStatement("CREATE TABLE IF NOT EXISTS users(id int NOT NULL AUTO_INCREMENT, username varchar(16), health int(3), weapon varchar(30), pet varchar(30), room int(4), weaponIndex int(4), petIndex int(4), PRIMARY KEY(id))"); //Lager databasen om den ikke allerede finnes
+            PreparedStatement create = con.prepareStatement("CREATE TABLE IF NOT EXISTS users(id int NOT NULL AUTO_INCREMENT, username varchar(16), password varchar(24), health int(3), weapon varchar(30), pet varchar(30), room int(4), weaponIndex int(4), petIndex int(4), PRIMARY KEY(id))"); //Lager databasen om den ikke allerede finnes
             create.executeUpdate();
 
         }catch(Exception e){System.out.println(e);}

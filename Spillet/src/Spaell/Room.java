@@ -3,6 +3,9 @@ package Spaell;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+
 import javax.swing.Timer;
 
 public class Room {
@@ -14,6 +17,7 @@ public class Room {
     VisibilityManager vm;
     Connect con;
     static Player player;
+    static String password;
     private Monster monster;
     static int roomcounter;
     private Weapon weapon;
@@ -49,30 +53,55 @@ public class Room {
         }
     }
 
-    //Lager og setter alt av utstyr på Player
-    public void start(){
-        player = new Player(ui.nameArea.getText()); //Gir spillern navnet brukern skrev inn på forrige side
+    public void whichName(int i){
+        if(i==0){
+            ui.nameButton.setActionCommand("register");
+        } else{
+            ui.nameButton.setActionCommand("login");
+        }
+    }
+
+    public void register(){
         try {
-            if(con.scan()){ //Sjekker om det er en bruker ved det innskrevne navnet i databasen
-                con.get(); //Henter ut og setter dataen på player
+            if(con.scan()){
+                ImageIcon icon = new ImageIcon("img/registericon.jpg");
+                JOptionPane.showMessageDialog(ui.window, "This username is already in use", "Nuh uh", 2, icon);
             } else{
+                player = new Player(ui.nameArea.getText()); //Gir spillern navnet brukern skrev inn på forrige side
+                password = ui.passwordArea.getText();
                 Weapon weapon = new Weapon(1); //Setter våpen branch
                 Pet pet = new Pet(5); //Setter kjæledyr gullfisk
                 player.setWeapon(weapon);
                 player.setPet(pet);
+                startScreen();
             }
         } catch (Exception e) {e.printStackTrace();}
+    }
 
-        //Sjekker om spillern allerede er død, om man prøver å hente ut en død spiller fra databasen
-        if(player.getHealth() > 0){
-            startScreen();
-        } else{
-            deadScreen();
-        }
+    //Lager og setter alt av utstyr på Player
+    public void login(){
+        try {
+            if(!con.scrutinise()){
+                ImageIcon icon = new ImageIcon("img/loginicon.png");
+                JOptionPane.showMessageDialog(ui.window, "The username or password is wrong", "Uh oh", 2, icon);
+            } else{
+                player = new Player(ui.nameArea.getText()); //Gir spillern navnet brukern skrev inn på forrige side
+                password = ui.passwordArea.getText();
+                con.get();
+                
+                //Sjekker om spillern allerede er død, om man prøver å hente ut en død spiller fra databasen
+                if(player.getHealth() > 0){
+                    startScreen();
+                } else{
+                    deadScreen();
+                }
+            }
+        } catch (Exception e) {e.printStackTrace();}
     }
 
     //Introskjermen som gir deg startinfo
     public void startScreen(){
+        vm.generalLayout();
         ui.generalHealthNumberLabel.setText(String.valueOf(player.getHealth()));
 
         ui.generalTextAreaa.setText("You are standing at the entrance of a dungeon.\nYou have a " + player.getWeapon().getType() + " in your hand \nYour loyal pet " + player.getPet().getRace() + " is with you\n\nProceed?");
@@ -87,6 +116,7 @@ public class Room {
     //Om man prøver å starte spillet med et navn man allerede har dødd med
     //At et navn kun kan brukes i en playthrough er ikke uheldig, det er en feature
     public void deadScreen(){
+        vm.generalLayout();
         ui.generalHealthNumberLabel.setText(String.valueOf(player.getHealth()));
         ui.generalTextAreaa.setText(player.getName() + " is already dead \n\nYou cannot come back to life at this time");
         ui.choiceButtonPanel.setVisible(false); //Fjerner muligheten til å trykke på noe som helst
@@ -211,6 +241,7 @@ public class Room {
     //Lager oppsettet for kamp, setter alle stat-labels og endrer layouten på skjermen
     public void fightSetup(){
         vm.fightLayout();
+        ui.spriteLabel.setIcon(new ImageIcon("img/sprites175/" + monster.getRace() + ".png"));
         ui.enemyHealthNumberLabel.setText(String.valueOf(monster.getHealth()));
         ui.enemyDamageNumberLabel.setText(""+ monster.getDamage());
         ui.fightHealthNumberLabel.setText(String.valueOf(player.getHealth()));

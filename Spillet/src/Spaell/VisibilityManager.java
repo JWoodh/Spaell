@@ -12,7 +12,8 @@ public class VisibilityManager {
         ui.titleNamePanel.setVisible(true);
         ui.startButtonPanel.setVisible(true);
 
-        ui.namePanel.setVisible(false);
+        ui.backPanel.setVisible(false);
+        ui.userPanel.setVisible(false);
         ui.nameButtonPanel.setVisible(false);
 
         ui.generalTextPanel.setVisible(false);
@@ -32,13 +33,15 @@ public class VisibilityManager {
         ui.titleNamePanel.setVisible(false);
         ui.startButtonPanel.setVisible(false);
 
-        ui.namePanel.setVisible(true);
+        ui.backPanel.setVisible(true);
+        ui.userPanel.setVisible(true);
         ui.nameButtonPanel.setVisible(true);
     }
 
     //Viser den generelle skjermen, gjør de relaterte panelene synlige og skjuler alle andre
     public void generalLayout(){
-        ui.namePanel.setVisible(false);
+        ui.backPanel.setVisible(false);
+        ui.userPanel.setVisible(false);
         ui.nameButtonPanel.setVisible(false);
 
         ui.generalTextPanel.setVisible(true);

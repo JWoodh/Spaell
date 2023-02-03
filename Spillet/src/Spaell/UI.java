@@ -6,6 +6,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
@@ -19,14 +20,15 @@ import java.awt.GridBagLayout;
 //er placeholders så jeg kan vite om noe har gått galt. Ikke tenk for mye på hva som står :)
 
 public class UI {
-    // Definerer alle variablene
 
+    // Definerer alle variablene
     JFrame window;
-    JPanel titleNamePanel, startButtonPanel, generalTextPanel, choiceButtonPanel, playerPanel, infoPanel, enemyPanel, enemyStatsPanel, playerStatsPanel, actionPanel, pussyPanel, namePanel, nameButtonPanel;
-    JLabel titleNameLabel, generalHealthLabel, generalHealthNumberLabel, enemyHealthLabel, enemyHealthNumberLabel, enemyDamageLabel, enemyDamageNumberLabel,fightHealthLabel, fightHealthNumberLabel, damageLabel, damageNumberLabel, weaponLabel, weaponNameLabel;
-    JButton startButton, nameButton, choice1, choice2, choice3, attackButton, itemButton, runButton;
-    JTextArea nameArea, generalTextAreaa, fighTextArea;
+    JPanel titleNamePanel, startButtonPanel, generalTextPanel, choiceButtonPanel, playerPanel, infoPanel, enemyPanel, enemyStatsPanel, playerStatsPanel, actionPanel, pussyPanel, backPanel, userPanel, nameButtonPanel;
+    JLabel titleNameLabel, generalHealthLabel, generalHealthNumberLabel, spriteLabel, enemyHealthLabel, enemyHealthNumberLabel, enemyDamageLabel, enemyDamageNumberLabel,fightHealthLabel, fightHealthNumberLabel, damageLabel, damageNumberLabel, weaponLabel, weaponNameLabel;
+    JButton newButton, continueButton, backButton, nameButton, choice1, choice2, choice3, attackButton, itemButton, runButton;
+    JTextArea nameArea, passwordArea, generalTextAreaa, fighTextArea;
     Container con;
+    GridLayout userLayout, startLayout;
 
     //Alle fontene og fargene som brukes
     Font titleFont = new Font("Times New Roman", Font.PLAIN,90);
@@ -36,11 +38,13 @@ public class UI {
     Color Back = new Color(12,36,22);
     Color Disabled = new Color(24,41,31);
 
+    // BufferedImage spriteImage;
+
     //Funksjonen som lager all UI-en spillet bruker
     public void createUI(Game.ChoiceHandler cHandler){
 
         //Lager vinduet
-        window = new JFrame();
+        window = new JFrame("Spæll");
         window.setSize(800,600); // Setter størrelsen på vinduet
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Gjør så vinduet kan lukkes
         window.getContentPane().setBackground(Back); //Setter bakgrunnsfarge 
@@ -51,46 +55,91 @@ public class UI {
 
         //Tittelen på spillet
         titleNamePanel = new JPanel();
-        titleNamePanel.setBounds(100,100,600,500);
+        titleNamePanel.setBounds(100,100,600,200);
         titleNamePanel.setBackground(Back);
         titleNameLabel = new JLabel("Spæll");
         titleNameLabel.setForeground(Fore);
         titleNameLabel.setFont(titleFont);
         titleNamePanel.add(titleNameLabel);
 
+        con.add(titleNamePanel);
+
         //Start-knapp panelet
+        startLayout = new GridLayout(2,1);
+        startLayout.setVgap(15);
         startButtonPanel = new JPanel(); 
-        startButtonPanel.setBounds(300,400,200,100);
+        startButtonPanel.setBounds(300,375,200,125);
         startButtonPanel.setBackground(Back);
+        startButtonPanel.setLayout(startLayout);
 
         //Startknappen
-        startButton = new JButton("START");
-        startButton.setBackground(Back);
-        startButton.setForeground(Fore);
-        startButton.setFont(normalFont);
-        startButton.setFocusPainted(false); //Fjerner unødvendige linjer som følger med knapper
-        startButton.addActionListener(cHandler); // Gir knappen en funksjon
-        startButton.setActionCommand("start"); //Setter kommmandoen knappen defineres av
-        startButtonPanel.add(startButton); //Legger knappen på panelet
+        newButton = new JButton("NEW GAME");
+        // newButton.setBounds(5,0,200,50);
+        newButton.setBackground(Back);
+        newButton.setForeground(Fore);
+        newButton.setFont(normalFont);
+        newButton.setFocusPainted(false); //Fjerner unødvendige linjer som følger med knapper
+        newButton.addActionListener(cHandler); // Gir knappen en funksjon
+        newButton.setActionCommand("new"); //Setter kommmandoen knappen defineres av
+        startButtonPanel.add(newButton); //Legger knappen på panelet
 
-        con.add(titleNamePanel);
+        continueButton = new JButton("CONTINUE");
+        // continueButton.setBounds(0,75,200,50);
+        continueButton.setBackground(Back);
+        continueButton.setForeground(Fore);
+        continueButton.setFont(normalFont);
+        continueButton.setFocusPainted(false);
+        continueButton.addActionListener(cHandler);
+        continueButton.setActionCommand("continue");
+        startButtonPanel.add(continueButton);
+
         con.add(startButtonPanel);
 
         // Name Layout
 
+        // Panelet for tilbake knappen
+        backPanel = new JPanel();
+        backPanel.setBounds(25,25,200,50);
+        backPanel.setBackground(Back);
+
+        // Tilbakeknappen
+        backButton = new JButton("BACK");
+        backButton.setBackground(Back);
+        backButton.setForeground(Fore);
+        backButton.setFont(normalFont);
+        backButton.setFocusPainted(false);
+        backButton.setBorder(null);
+        backButton.addActionListener(cHandler);
+        backButton.setActionCommand("back");
+        backPanel.add(backButton);
+
         //Panelet til område for å sette navn
-        namePanel = new JPanel();
-        namePanel.setBounds(200,100,400,200);
-        namePanel.setBackground(Back);
+        userLayout = new GridLayout(3,1);
+        userLayout.setVgap(25);
+
+        userPanel = new JPanel();
+        userPanel.setBounds(200,115,400,300);
+        userPanel.setLayout(userLayout);
+        userPanel.setBackground(Back);
 
         //Området man setter navnet sitt
         nameArea = new JTextArea("Enter name here");
+        nameArea.setBounds(0,0,400,100);
         nameArea.setForeground(Fore);
         nameArea.setBackground(Back);
         nameArea.setFont(nameFont);
         nameArea.setEditable(true);
         nameArea.setBorder(BorderFactory.createCompoundBorder(new EtchedBorder(), new EmptyBorder(10, 10, 10, 10))); //Lager en stilig linje rundt området
-        namePanel.add(nameArea);
+        userPanel.add(nameArea);
+
+        passwordArea = new JTextArea("Enter password here");
+        passwordArea.setBounds(0,200,400,100);
+        passwordArea.setForeground(Fore);
+        passwordArea.setBackground(Back);
+        passwordArea.setFont(nameFont);
+        passwordArea.setEditable(true);
+        passwordArea.setBorder(BorderFactory.createCompoundBorder(new EtchedBorder(), new EmptyBorder(10, 10, 10, 10))); //Lager en stilig linje rundt området
+        userPanel.add(passwordArea);
 
         //Panelet til knappen for å starte spillet
         nameButtonPanel = new JPanel();
@@ -107,9 +156,9 @@ public class UI {
         nameButton.setActionCommand("name");
         nameButtonPanel.add(nameButton);
 
-        con.add(namePanel);
+        con.add(backPanel);
         con.add(nameButtonPanel);
-
+        con.add(userPanel);
 
         // General Layout
 
@@ -213,6 +262,10 @@ public class UI {
         enemyPanel.setBackground(Back);
         enemyPanel.setBorder(BorderFactory.createCompoundBorder(new EtchedBorder(), new EmptyBorder(10, 10, 10, 10)));
         con.add(enemyPanel);
+
+        // Sprite
+        spriteLabel = new JLabel(new ImageIcon("img/placeholder.png"));
+        enemyPanel.add(spriteLabel);
 
         //Fiendens stats, health og damage
         enemyStatsPanel = new JPanel();
