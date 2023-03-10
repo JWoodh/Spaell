@@ -228,7 +228,7 @@ public class Room {
     public void enemy(){
         ui.generalHealthLabel.setText("Hp: ");
         ui.generalHealthNumberLabel.setText(String.valueOf(player.getHealth()));
-        monster = new Monster(-1); //Lager tilfeldig monster
+        monster = new Monster(-1   ); //Lager tilfeldig monster
         ui.generalTextAreaa.setText("You stand face to face with a " + monster.getRace());
         ui.choice1.setText("Fight");
         ui.choice2.setText("Attempt escape");
