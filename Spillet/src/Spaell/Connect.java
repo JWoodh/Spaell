@@ -57,6 +57,7 @@ public class Connect {
         return false;   
     }
 
+    //Sjekker om brukeren som skal logges inn med finnes og om passordene matcher
     public boolean scrutinise() throws Exception{
         Connection con = getConnection(); // Får kobling til databasen
         createTable(); //Lager tabellen om den ikke allerede finnes
@@ -87,17 +88,17 @@ public class Connect {
         int weaponIndex = Room.player.getWeapon().getIndex();
         int petIndex = Room.player.getPet().getIndex();
         
-        int check = 0; //Sjekker om det ble et treff i det hele tatt
+        boolean check = true; //Sjekker om det ble et treff i det hele tatt
         while(result.next()){ //Kjører gjennom resultatene og sjekker om det allerede er en bruker som heter det
             if(result.getString("username").equals(username)){
 
                 //Oppdaterer brukern med ny info
                 PreparedStatement change = con.prepareStatement("UPDATE users SET password = '"+ password +"', health = '" + health + "', weapon = '" + weapon + "', pet = '" + pet + "', room = '" + room + "', weaponIndex = '" + weaponIndex + "', petIndex = '" + petIndex + "' WHERE username = '" + username + "'");
                 change.executeUpdate();
-                check = 1;
+                check = false;
             } 
         } 
-        if(check == 0){
+        if(check){
             try{
                 //Lagere brukern med info
                 PreparedStatement inserted = con.prepareStatement("INSERT INTO users (username, password, health, weapon, pet, room, weaponIndex, petIndex) VALUES ('"+username+"','"+password+"','"+health+"','"+weapon+"', '"+pet+"', '"+room+"', '" + weaponIndex + "', '" + petIndex + "')");
@@ -111,7 +112,7 @@ public class Connect {
     public void createTable() throws Exception{
         try{
             Connection con = getConnection(); //Får kobling til databasen
-            PreparedStatement create = con.prepareStatement("CREATE TABLE IF NOT EXISTS users(id int NOT NULL AUTO_INCREMENT, username varchar(16), password varchar(24), health int(3), weapon varchar(30), pet varchar(30), room int(4), weaponIndex int(4), petIndex int(4), PRIMARY KEY(id))"); //Lager databasen om den ikke allerede finnes
+            PreparedStatement create = con.prepareStatement("CREATE TABLE IF NOT EXISTS users(id int NOT NULL AUTO_INCREMENT, username varchar(16), password varchar(24), health int(3), weapon varchar(30), pet varchar(30), room int(4), weaponIndex int(4), petIndex int(4), admin int(1), PRIMARY KEY(id))"); //Lager databasen om den ikke allerede finnes
             create.executeUpdate();
 
         }catch(Exception e){System.out.println(e);}
@@ -122,9 +123,9 @@ public class Connect {
         try{
             String driver = "com.mysql.cj.jdbc.Driver"; //Driveren
             // String url = "jdbc:mysql://10.2.2.2:3306/java"; //lenken til databsen
-            String url = "jdbc:mysql://localhost/java"; //lenken til databsen
-            String username = "JWoodh";//Brukernavn for tilgang
-            String password = "jwoodh";//Passord for tilgang
+            String url = "jdbc:mysql://10.10.43.43:3306/java"; //lenken til databsen
+            String username = "java";//Brukernavn for tilgang
+            String password = "010500";//Passord for tilgang
             Class.forName(driver);
 
             Connection conn = DriverManager.getConnection(url, username, password); //Setter koblingen

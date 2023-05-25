@@ -31,17 +31,17 @@ public class Game {
             String choice = event.getActionCommand();
 
             switch(choice){
-                case "new" : vm.nameLayout(); room.whichName(0);            break;
-                case "continue" : vm.nameLayout(); room.whichName(1);       break;
-                case "back" : vm.showTitleScreen();                            break;
-                case "c1"    : room.selectPosition(nextPosition1);             break;
-                case "c2"    : room.selectPosition(nextPosition2);             break;
-                case "c3"    : room.selectPosition(nextPosition3);             break; 
-                case "attack": room.playerAttack();                            break; 
-                case "item"  : ui.fighTextArea.setText("You have no items"); break;
-                case "run"   : room.escape();                                  break;
-                case "register"  : room.register();                                   break;
-                case "login" : room.login();              
+                case "new"          : vm.nameLayout(); room.whichName(0);           break;
+                case "continue"     : vm.nameLayout(); room.whichName(1);           break;
+                case "back"         : vm.showTitleScreen();                           break;
+                case "c1"           : room.selectPosition(nextPosition1);             break;
+                case "c2"           : room.selectPosition(nextPosition2);             break;
+                case "c3"           : room.selectPosition(nextPosition3);             break; 
+                case "attack"       : room.playerAttack();                            break; 
+                case "item"         : ui.fighTextArea.setText("You have no items"); break;
+                case "run"          : room.escape();                                  break;
+                case "register"     : room.register();                                break;
+                case "login"        : room.login();                                   break;
             }
         }
     }
