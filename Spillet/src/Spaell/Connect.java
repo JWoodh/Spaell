@@ -122,8 +122,7 @@ public class Connect {
     public static Connection getConnection() throws Exception{
         try{
             String driver = "com.mysql.cj.jdbc.Driver"; //Driveren
-            // String url = "jdbc:mysql://10.2.2.2:3306/java"; //lenken til databsen
-            String url = "jdbc:mysql://10.10.43.43:3306/java"; //lenken til databsen
+            String url = "jdbc:mysql://10.10.40.43:3306/java"; //lenken til databsen
             String username = "java";//Brukernavn for tilgang
             String password = "010500";//Passord for tilgang
             Class.forName(driver);

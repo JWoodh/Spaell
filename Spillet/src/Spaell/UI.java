@@ -176,6 +176,7 @@ public class UI {
         generalTextAreaa.setFont(normalFont);
         generalTextAreaa.setLineWrap(true); //Tekst wrapper automatisk rundt når teksten går utenfor området sitt
         generalTextAreaa.setWrapStyleWord(true); //Fjerner whitespace ved linjeskifte
+        generalTextAreaa.setEditable(false);
         generalTextAreaa.setBorder(BorderFactory.createCompoundBorder(new EtchedBorder(), new EmptyBorder(10, 10, 10, 10)));
         generalTextPanel.add(generalTextAreaa);
 
