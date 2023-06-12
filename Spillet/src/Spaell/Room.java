@@ -362,7 +362,7 @@ public class Room {
     public void escapeResult(int result){
         int random = (int)Math.floor(Math.random()*3+1); //Lager tilfeldig tall, 1,2 eller 3
 
-        if(random != result){ // Sjekker om spillerens valg er det samme som programmets
+        if(random == result){ // Sjekker om spillerens valg er det samme som programmets
             escapeSuccess();
 
         } else{
